@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
@@ -29,11 +30,12 @@ public class yahtzeeGame {
     }
 
     public void play(Scanner sc) {
-        while (roundsPlayed < 3) {
+        while (roundsPlayed < 2) {
             for (Person player : players) {
                 System.out.println("Player " + player + "'s turn (type roll)");
                 playRound(sc);
                 System.out.println("What category would you like to choose? Note that if you choose a category in which you don't meet criteria, you will get a 0 in that category.");
+                System.out.println("Also, for now: keep track of the categories you've already used.");
                 System.out.println("UPPER: aces | twos | threes | fours | fives | sixes \nLOWER: 3-kind | 4-kind | full house | small straight | large straight | yahtzee | chance ");
                 String command = sc.nextLine();
                 scoreRound(player, command);
@@ -43,6 +45,7 @@ public class yahtzeeGame {
 
             roundsPlayed++;
         }
+        printResults();
     }
 
     private void rollSome(String[] whichDice) {
@@ -81,11 +84,11 @@ public class yahtzeeGame {
             if (rerolls > 2) {
                 return;
             }
-            if (command.equals("score")) {
+            if (command.equals("score") && rerolls > 0) {
                 printDice();
                 return;
             }
-            System.out.println("What would you like to do? (Enter 'all' to roll all, 'some' to specify which dice, or 'score' to see score)" + rerolls);
+            System.out.println("What would you like to do? (Enter 'all' to roll all, 'some' to specify which dice, or 'score' to see score)");
             command = sc.nextLine();
             System.out.println();
 
@@ -107,32 +110,62 @@ public class yahtzeeGame {
     }
 
     private void scoreRound(Person player, String command) {
-        System.out.println("Entering scoreRound");
-        boolean isValid;
+        System.out.println();
         switch (command) {
             case "aces":
                 player.addPoint(addScoreForUpper(1));
+                break;
             case "twos":
                 player.addPoint(addScoreForUpper(2));
+                break;
             case "threes":
                 player.addPoint(addScoreForUpper(3));
+                break;
             case "fours":
                 player.addPoint(addScoreForUpper(4));
+                break;
             case "fives":
                 player.addPoint(addScoreForUpper(5));
+                break;
             case "sixes":
                 player.addPoint(addScoreForUpper(6));
+                break;
 
-            case "3-kind": player.addPoint(sumDice(isCategory(3)));
-            case "4-kind": player.addPoint(sumDice(isCategory(4)));
+            case "3-kind":
+                player.addPoint(sumDice(isCategory(3, true)));
+                break;
+            case "4-kind":
+                player.addPoint(sumDice(isCategory(4, true)));
+                break;
             case "full house":
             case "large straight":
+                player.addPoint(sumDice(isCategory(1, false)));
+                break;
             case "small straight":
+                player.addPoint(sumDice(isCategory(2, false)));
+                break;
             case "yahtzee":
+                player.addPoint(yahtzee());
+                break;
             case "chance":
-                diceFreq();
+                player.addPoint(sumDice(true));
+                break;
+                
         }
 
+    }
+
+    private int yahtzee() {
+        int first = dice[0].lastRoll();
+        int sum = first;
+
+        for (int i = 1; i < 5; i++) {
+            if (first != dice[i].lastRoll()) {
+                return 0;
+            }
+            sum += first;
+        }
+        return sum;
     }
 
     private int addScoreForUpper(int category) {
@@ -154,12 +187,18 @@ public class yahtzeeGame {
 
     }
 
-    private boolean isCategory(int n) {
+    private boolean isCategory(int n, boolean kind) {
         int[] freq = diceFreq();
 
         for (int i = 0; i < 6; i++) {
-            if (freq[i] == n) {
-                return true;
+            if (kind) {
+                if (freq[i] == n) {
+                    return true;
+                }
+            } else {
+                if (freq[i] < n) {
+                    return true;
+                }
             }
         }
 
@@ -176,5 +215,21 @@ public class yahtzeeGame {
         }
         return result;
     }
+    
+    private void printResults(){
+        System.out.println("Final results:");
+        for (Person player: players){
+            System.out.println(player);
+        }
+    }
+            
 
+    /* private void setCategories(ArrayList<YahtzeeCategory> categories){
+        String test = "aces twos threes fours fives sixes 3-kind 4-kind full-house small-straight large-straight yahtzee chance";
+        String[] array = test.split("\\s+");
+        for(int i = 0; i < array.length; i++){
+            categories.add(new YahtzeeCategory(array[i]));
+        }
+    }
+     */
 }
