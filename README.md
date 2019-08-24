@@ -9,11 +9,10 @@ This may be a bit of an ambitious project, but I want to create an application t
 # current progress
 yahtzee is making strong progress. currently:
 
-* you can choose number of players, and game will loop number of plays the given amount of times (right now is 3 for testing purposes)
-* you can roll up to three times, and choose which dice to keep. 
+* number of players can be chosen, and the game will correctly loop for 13 rounds.
+* all scoring methods work flawlessly with the exception of small straight. need to figure out the logic behind differentiating 1-2-3-4 and 1-2-4-5, for instance.
 * rolls can be scored at any time. type the category you'd like to be judged
-* most categories work with the exception of straights, full house, and yahtzee
 * need a way to keep track of which categories are filled, and which ones aren't. 
-* still need to implement calculating the final score once the game has completed
+* still need to implement calculating the final score once the game has completed. game prints a final score, but does not include bonus points (YET)
 
 

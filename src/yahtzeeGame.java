@@ -30,7 +30,7 @@ public class yahtzeeGame {
     }
 
     public void play(Scanner sc) {
-        while (roundsPlayed < 2) {
+        while (roundsPlayed < 13) {
             for (Person player : players) {
                 System.out.println("Player " + player + "'s turn (type roll)");
                 playRound(sc);
