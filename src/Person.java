@@ -10,9 +10,11 @@
  */
 public class Person {
     private int score;
+    private int id;
     
-    public Person(){
+    public Person(int id){
         score = 0;
+        this.id = id;
     }
     
     public void addPoint(){
@@ -23,7 +25,12 @@ public class Person {
         score += numAdd;
     }
     
-    public int score(){
-        return score;
+    public String score(){
+        return "Player " + id + "'s  score: " + score;
+    }
+    
+    @Override
+    public String toString(){
+        return Integer.toString(id);
     }
 }

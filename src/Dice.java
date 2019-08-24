@@ -25,6 +25,10 @@ public class Dice {
         lastRoll = r.nextInt(numberSides) + 1;
     }
     
+    public int lastRoll(){
+        return lastRoll;
+    }
+    
     @Override
     public String toString(){
         return "" + lastRoll + " ";
