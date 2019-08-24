@@ -1,4 +1,4 @@
-# written entirely in Java
+# Java
 
 # dice_games
 
