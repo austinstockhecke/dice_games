@@ -21,6 +21,10 @@ public class Person {
         addPoint(1);
     }
     
+    public int id(){
+        return id;
+    }
+    
     public void addPoint(int numAdd){
         score += numAdd;
     }

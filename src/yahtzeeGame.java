@@ -16,6 +16,7 @@ public class yahtzeeGame {
     private Dice[] dice;
     private Person[] players;
     private int roundsPlayed;
+    private int[][] categoryPoints;
 
     public yahtzeeGame(int numPlayers) {
         players = new Person[numPlayers];
@@ -26,11 +27,12 @@ public class yahtzeeGame {
         for (int i = 0; i < 5; i++) {
             dice[i] = new Dice(5);
         }
+        categoryPoints = new int[numPlayers][14];
         roundsPlayed = 0;
     }
 
     public void play(Scanner sc) {
-        while (roundsPlayed < 13) {
+        while (roundsPlayed < 1) {
             for (Person player : players) {
                 System.out.println("Player " + player + "'s turn (type roll)");
                 playRound(sc);
@@ -40,6 +42,7 @@ public class yahtzeeGame {
                 String command = sc.nextLine();
                 scoreRound(player, command);
                 System.out.println(player.score());
+               
 
             }
 
@@ -111,24 +114,38 @@ public class yahtzeeGame {
 
     private void scoreRound(Person player, String command) {
         System.out.println();
+        int score;
+        boolean isValid1; boolean isValid2;
         switch (command) {
             case "aces":
-                player.addPoint(addScoreForUpper(1));
+                score = addScoreForUpper(1);
+                player.addPoint(score);
+                categoryPoints[player.id()-1][1] = score;
                 break;
             case "twos":
-                player.addPoint(addScoreForUpper(2));
+                score = addScoreForUpper(2);
+                player.addPoint(score);
+                categoryPoints[player.id()-1][2] = score;
                 break;
             case "threes":
-                player.addPoint(addScoreForUpper(3));
+                score = addScoreForUpper(3);
+                player.addPoint(score);
+                categoryPoints[player.id()-1][3] = score;
                 break;
             case "fours":
-                player.addPoint(addScoreForUpper(4));
+                score = addScoreForUpper(4);
+                player.addPoint(score);
+                categoryPoints[player.id()-1][4] = score;
                 break;
             case "fives":
-                player.addPoint(addScoreForUpper(5));
+                score = addScoreForUpper(5);
+                player.addPoint(score);
+                categoryPoints[player.id()-1][5] = score;
                 break;
             case "sixes":
-                player.addPoint(addScoreForUpper(6));
+                score = addScoreForUpper(6);
+                player.addPoint(score);
+                categoryPoints[player.id()-1][6] = score;
                 break;
 
             case "3-kind":
@@ -137,7 +154,7 @@ public class yahtzeeGame {
             case "4-kind":
                 player.addPoint(sumDice(isCategory(4, true)));
                 break;
-            case "full house":
+            case "full house": 
             case "large straight":
                 player.addPoint(sumDice(isCategory(1, false)));
                 break;
@@ -217,9 +234,17 @@ public class yahtzeeGame {
     }
     
     private void printResults(){
+        int sum = 0;
+
         System.out.println("Final results:");
         for (Person player: players){
-            System.out.println(player);
+            for (int i = 1; i < 7; i++){
+            sum += categoryPoints[player.id()-1][i];
+        }
+            if(sum > 62){
+                player.addPoint(35);
+            }
+            System.out.println(player.score());
         }
     }
             
