@@ -1,3 +1,5 @@
+# written entirely in Java
+
 # dice_games
 
 Hey all!
