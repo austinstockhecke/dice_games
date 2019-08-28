@@ -10,7 +10,7 @@
  */
 public class Person {
     private int score;
-    private int id;
+    private final int id;
     
     public Person(int id){
         score = 0;

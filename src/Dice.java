@@ -14,7 +14,7 @@ public class Dice {
 
     private final int numberSides;
     private int lastRoll;
-    private Random r;
+    private final Random r;
 
     public Dice(int numberSides) {
         this.numberSides = numberSides;
