@@ -36,33 +36,33 @@ public class YahtzeeGame {
         printDice();
     }
 
-    public int scoreRound(String command) {
+    public int scoreRound(int command) {
         switch (command) {
-            case "aces":
+            case 1:
                 return addScoreForUpper(1);
-            case "twos":
+            case 2:
                 return addScoreForUpper(2);
-            case "threes":
+            case 3:
                 return addScoreForUpper(3);
-            case "fours":
+            case 4:
                 return addScoreForUpper(4);
-            case "fives":
+            case 5:
                 return addScoreForUpper(5);
-            case "sixes":
+            case 6:
                 return addScoreForUpper(6);
 
-            case "3-kind":
+            case 7: // 3 of a kind
                 return sumDice(isCategory(3, true));
-            case "4-kind":
+            case 8: // 4 of a kind
                 return sumDice(isCategory(4, true));
-            case "full house":
-            case "large straight":
+            case 9: // full house
+            case 10: // large straight
                 return sumDice(isCategory(1, false));
-            case "small straight":
+            case 11: // small straight
                 return sumDice(isCategory(2, false));
-            case "yahtzee":
+            case 12: // yahtzee!
                 return yahtzee();
-            case "chance":
+            case 13: // chance
                 return sumDice(true);
 
         }
@@ -127,6 +127,19 @@ public class YahtzeeGame {
         }
         return result;
     }
+    
+    public int scoreGame(int[] array){
+        int sum = 0, total = 0;
+        
+        for (int i = 1; i < 7; i ++){
+            sum += array[i];
+        }
+        if (sum > 62){
+            total += 35;
+        }
+         return total;
+    }
+   
 }
 
 /*private void playRound(String command) {

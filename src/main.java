@@ -16,7 +16,7 @@ public class main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         YahtzeeGame yz = new YahtzeeGame();
-        ArrayList<String> categoryUsed = new ArrayList<>();
+        int[] categoryPoints = new int[14];
         Person player = new Person(1);
         System.out.println("Welcome to Yahtzee!");
         int roundsPlayed = 0;
@@ -46,14 +46,28 @@ public class main {
                 }
 
             }
-           
+
             System.out.println("\nWhat category would you like to choose? Note that if you choose a category in which you don't meet criteria, you will get a 0 in that category.");
-            System.out.println("Also, for now: keep track of the categories you've already used.");
-            System.out.println("UPPER: aces | twos | threes | fours | fives | sixes \nLOWER: 3-kind | 4-kind | full house | small straight | large straight | yahtzee | chance ");
-            String command = sc.nextLine();
-            player.addPoint(yz.scoreRound(command));
+            System.out.println("Also, for now: keep track of the categories you've already used. Enter the number of the category you'd like to be scored in.");
+            System.out.println("UPPER: 1. aces | 2. twos | 3. threes | 4. fours | 5. fives | 6. sixes \nLOWER: 7. 3 of a kind | 8. 4 of a kind | 9. full house | 10. small straight | 11. large straight | 12. yahtzee | 13. chance ");
+            int command = Integer.parseInt(sc.nextLine());
+            while (yz.scoreRound(command) < 0) {
+                System.out.println("Not a valid command. Try again: ");
+                command = Integer.parseInt(sc.nextLine());
+            }
+                int score = yz.scoreRound(command);
+                categoryPoints[command] = score;
+                player.addPoint(score);
+                System.out.println(player.score());
+                ++roundsPlayed;
+
+            }
+
+            System.out.println("\nCalculating score..\n\n");
+            int bonusPoints = yz.scoreGame(categoryPoints);
+            player.addPoint(bonusPoints);
+            System.out.println("final results!");
             System.out.println(player.score());
-            ++roundsPlayed;
         }
     }
-}
+
